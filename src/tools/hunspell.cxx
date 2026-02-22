@@ -672,6 +672,8 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
   int d = 0;
   char* odftmpdir = NULL;
 
+  bool io_is_utf8 = io_enc && strcmp(io_enc, "UTF-8") == 0;
+
   std::string filename_prefix = (multiple_files) ? filename + std::string(": ") : "";
 
   const char* extension = (filename) ? basename(filename, '.') : NULL;
@@ -945,7 +947,7 @@ nextline:
             } else {
               int byte_offset = parser->get_tokenpos() + pos;
               int char_offset = 0;
-              if (strcmp(io_enc, "UTF-8") == 0) {
+              if (io_is_utf8) {
                 for (int i = 0; i < byte_offset; i++) {
                   if ((buf[i] & 0xc0) != 0x80)
                     char_offset++;
@@ -987,7 +989,7 @@ nextline:
             } else {
               int byte_offset = parser->get_tokenpos() + pos;
               int char_offset = 0;
-              if (strcmp(io_enc, "UTF-8") == 0) {
+              if (io_is_utf8) {
                 for (int i = 0; i < byte_offset; i++) {
                   if ((buf[i] & 0xc0) != 0x80)
                     char_offset++;
