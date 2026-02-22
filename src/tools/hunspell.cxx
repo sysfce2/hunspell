@@ -636,9 +636,12 @@ static bool is_zipped_odf(TextParser* parser, const char* extension) {
 }
 
 static bool secure_filename(const char* filename) {
-  const char* hasapostrophe = strchr(filename, '\'');
-  if (hasapostrophe)
-    return false;
+  for (const char* p = filename; *p; ++p) {
+    if (!((*p >= 'A' && *p <= 'Z') || (*p >= 'a' && *p <= 'z') ||
+          (*p >= '0' && *p <= '9') || *p == '.' || *p == '-' ||
+          *p == '_' || *p == '/' || *p == ' ' || *p == '~'))
+      return false;
+  }
   return true;
 }
 
@@ -1684,7 +1687,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
       fclose(text);
       if (bZippedOdf && odffilename) {
         std::ostringstream sbuf;
-        sbuf << "zip -j '" << odffilename << "' " << filename;
+        sbuf << "zip -j \"" << odffilename << "\" " << filename;
         if (system(sbuf.str().c_str()) != 0)
           perror("write failed");
       }
