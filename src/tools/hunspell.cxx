@@ -862,13 +862,14 @@ nextline:
               std::vector<std::string> wlst =
                   pMS[d]->suggest(chenc(parser->get_word(token), io_enc, dic_enc[d]));
               if (!wlst.empty()) {
-                parser->change_token(chenc(wlst[0], dic_enc[d], io_enc).c_str());
+                std::string best_io = chenc(wlst[0], dic_enc[d], io_enc);
+                parser->change_token(best_io.c_str());
                 if (filter_mode == AUTO3) {
                   fprintf(f, "%s:%d: Locate: %s | Try: %s\n", currentfilename,
-                          lineno, token.c_str(), chenc(wlst[0], dic_enc[d], io_enc).c_str());
+                          lineno, token.c_str(), best_io.c_str());
                 } else if (filter_mode == AUTO2) {
                   fprintf(f, "%ds/%s/%s/g; # %s\n", lineno, token.c_str(),
-                          chenc(wlst[0], dic_enc[d], io_enc).c_str(), buf);
+                          best_io.c_str(), buf);
                 } else {
                   fprintf(f, gettext("Line %d: %s -> "), lineno,
                           chenc(token, io_enc, ui_enc).c_str());
@@ -954,14 +955,17 @@ nextline:
               }
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
+              for (size_t j = 0; j < wlst.size(); ++j) {
+                wlst[j] = chenc(wlst[j], dic_enc[d], io_enc);
+              }
               if (wlst.empty()) {
                 fprintf(stdout, "# %s %d", token.c_str(), char_offset);
               } else {
                 fprintf(stdout, "& %s %u %d: ", token.c_str(), static_cast<unsigned int>(wlst.size()), char_offset);
-                fprintf(stdout, "%s", chenc(wlst[0], dic_enc[d], io_enc).c_str());
+                fprintf(stdout, "%s", wlst[0].c_str());
               }
               for (size_t j = 1; j < wlst.size(); ++j) {
-                  fprintf(stdout, ", %s", chenc(wlst[j], dic_enc[d], io_enc).c_str());
+                  fprintf(stdout, ", %s", wlst[j].c_str());
               }
               fprintf(stdout, "\n");
               fflush(stdout);
@@ -993,16 +997,20 @@ nextline:
               }
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
+              for (size_t j = 0; j < wlst.size(); ++j) {
+                wlst[j] = chenc(wlst[j], dic_enc[d], ui_enc);
+              }
+              std::string token_ui = chenc(token, io_enc, ui_enc);
               if (wlst.empty()) {
-                fprintf(stdout, "# %s %d", chenc(token, io_enc, ui_enc).c_str(),
+                fprintf(stdout, "# %s %d", token_ui.c_str(),
                         char_offset);
               } else {
-                fprintf(stdout, "& %s %u %d: ", chenc(token, io_enc, ui_enc).c_str(),
+                fprintf(stdout, "& %s %u %d: ", token_ui.c_str(),
                         static_cast<unsigned int>(wlst.size()), char_offset);
-                fprintf(stdout, "%s", chenc(wlst[0], dic_enc[d], ui_enc).c_str());
+                fprintf(stdout, "%s", wlst[0].c_str());
               }
               for (size_t j = 1; j < wlst.size(); ++j) {
-                fprintf(stdout, ", %s", chenc(wlst[j], dic_enc[d], ui_enc).c_str());
+                fprintf(stdout, ", %s", wlst[j].c_str());
               }
               fprintf(stdout, "\n");
               fflush(stdout);
