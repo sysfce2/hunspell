@@ -168,7 +168,7 @@ AffixMgr::AffixMgr(const char* affpath,
   memset(contclasses, 0, CONTSIZE * sizeof(char));
 
   if (parse_file(affpath, key)) {
-    HUNSPELL_WARNING(stderr, "Failure loading aff file %s\n", affpath);
+    fprintf(stderr, "Failure loading aff file %s\n", affpath);
   }
 
   /* get encoding for CHECKCOMPOUNDCASE */

@@ -99,7 +99,7 @@ HashMgr::HashMgr(const char* tpath, const char* apath, const char* key)
   int ec = load_tables(tpath, key);
   if (ec) {
     /* error condition - what should we do here */
-    HUNSPELL_WARNING(stderr, "Hash Manager Error : %d\n", ec);
+    fprintf(stderr, "Hash Manager Error : %d\n", ec);
     free_table();
     //keep table size to 1 to fix possible division with zero
     tableptr.resize(1, nullptr);
@@ -608,7 +608,7 @@ int HashMgr::load_tables(const char* tpath, const char* key) {
   // first read the first line of file to get hash table size
   std::string ts;
   if (!dict->getline(ts)) {
-    HUNSPELL_WARNING(stderr, "error: empty dic file %s\n", tpath);
+    fprintf(stderr, "error: empty dic file %s\n", tpath);
     delete dict;
     return 2;
   }
@@ -629,8 +629,9 @@ int HashMgr::load_tables(const char* tpath, const char* key) {
 #endif
 
   if (tablesize <= 0 || tablesize >= max_allowed) {
-    HUNSPELL_WARNING(
-        stderr, "error: line 1: missing or bad word count in the dic file\n");
+    fprintf(stderr,
+            "error: %s: line 1: missing or bad word count in the dic file\n",
+            tpath);
     delete dict;
     return 4;
   }
