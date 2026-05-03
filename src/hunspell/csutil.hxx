@@ -274,7 +274,7 @@ LIBHUNSPELL_DLL_EXPORTED char* get_stored_pointer(const char* s);
 // "likely false", if ignored_chars characters are not ASCII)
 inline bool has_no_ignored_chars(const std::string& word,
                             const std::string& ignored_chars) {
-  return std::all_of(ignored_chars.begin(), ignored_chars.end(), 
+  return std::all_of(ignored_chars.begin(), ignored_chars.end(),
     [&word](char ic) { return word.find(ic) == std::string::npos; });
 }
 

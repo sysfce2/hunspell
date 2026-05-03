@@ -268,10 +268,10 @@ size_t HunspellImpl::cleanword2(std::string& dest,
     ++q;
     nl--;
   }
-	
+
   // now strip off any trailing periods (recording their presence)
   *pabbrev = 0;
-  
+
   while ((nl > 0) && (*(q + nl - 1) == '.')) {
     nl--;
     (*pabbrev)++;
@@ -307,10 +307,10 @@ void HunspellImpl::cleanword(std::string& dest,
     ++q;
     nl--;
   }
-  
+
   // now strip off any trailing periods (recording their presence)
   *pabbrev = 0;
-  
+
   while ((nl > 0) && (*(q + nl - 1) == '.')) {
     nl--;
     (*pabbrev)++;

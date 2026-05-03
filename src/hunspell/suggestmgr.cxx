@@ -168,7 +168,7 @@ void SuggestMgr::testsug(std::vector<std::string>& wlst,
     return;
 
   const int cwrd = std::find(wlst.begin(), wlst.end(), candidate) != wlst.end() ? 0 : 1;
-  
+
   if (cwrd) {
     if (int result = checkword(candidate, cpdsuggest, timer, timelimit)) {
       // compound word in the dictionary
@@ -2090,7 +2090,7 @@ int SuggestMgr::ngram(int n,
                       const std::string& s2,
                       int opt) {
   int nscore = 0, ns, l1, l2 = s2.size();
-  
+
   if (l2 == 0)
     return 0;
   l1 = s1.size();

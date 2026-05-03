@@ -964,7 +964,7 @@ std::string HashMgr::encode_flag(unsigned short f) const {
     ch.push_back((unsigned char)(f >> 8));
     ch.push_back((unsigned char)(f - ((f >> 8) << 8)));
   } else if (flag_mode == FLAG_NUM) {
-    ch = std::to_string(f); 
+    ch = std::to_string(f);
   } else if (flag_mode == FLAG_UNI) {
 
 #if defined(_WIN32) || (defined(__BYTE_ORDER__) && (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__))  || defined(__LITTLE_ENDIAN__)

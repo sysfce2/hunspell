@@ -1539,7 +1539,7 @@ short AffixMgr::get_syllable(const std::string& word) {
   short num = 0;
 
   if (!utf8) {
-    num = (short)std::count_if(word.begin(), word.end(), 
+    num = (short)std::count_if(word.begin(), word.end(),
           [&](char c) {
             return std::binary_search(cpdvowels.begin(), cpdvowels.end(), c);
           });

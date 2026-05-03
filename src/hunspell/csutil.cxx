@@ -449,7 +449,7 @@ size_t reverseword(std::string& word) {
 // reverse word
 size_t reverseword_utf(std::string& word) {
   std::reverse(word.begin(), word.end()); //1st step: we reverse the string
-	
+
   size_t num_chars = word.size(); //in order to make sure there are enough characters at the end of the string when we process a multibyte character
   //2nd step: we process each multibyte character and reverse it
   for (auto it = word.rbegin(); it != word.rend(); ) {
@@ -563,7 +563,7 @@ unsigned char ccase(const struct cs_info* csconv, int nIndex) {
 }
 
 w_char upper_utf(w_char u, int langnum) {
-	
+
 #if defined(_WIN32) || (defined(__BYTE_ORDER__) && (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__))  || defined(__LITTLE_ENDIAN__)
 
 //with these optimizations, msvc can optimize this function to one jmp instruction
@@ -587,7 +587,7 @@ w_char upper_utf(w_char u, int langnum) {
 }
 
 w_char lower_utf(w_char u, int langnum) {
-	
+
 #if defined(_WIN32) || (defined(__BYTE_ORDER__) && (__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__))  || defined(__LITTLE_ENDIAN__)
 
 //with these optimizations, msvc can optimize this function to one jmp instruction
@@ -2601,7 +2601,7 @@ size_t remove_ignored_chars_utf(std::string& word,
   std::vector<w_char> w2;
   u8_u16(w, word);
 
-  std::copy_if(w.begin(), w.end(), std::back_inserter(w2), 
+  std::copy_if(w.begin(), w.end(), std::back_inserter(w2),
   [&ignored_chars](w_char wc) {
     return !std::binary_search(ignored_chars.begin(), ignored_chars.end(), wc);
   });
