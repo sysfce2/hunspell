@@ -97,6 +97,10 @@ Then run the following commands:
     sudo make install
     sudo ldconfig
 
+For a non-root install, use `DESTDIR` so libtool skips `ldconfig`:
+
+    make install DESTDIR="$HOME/hunspell-root"
+
 For dictionary development, use the `--with-warnings` option of
 configure.
 
