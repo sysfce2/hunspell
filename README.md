@@ -300,6 +300,16 @@ Example for morphological generation:
     generate(mouse, cats) = mice
     generate(mouse, cats) = mouses
 
+Note: morphological generation, stemming and analysis only work with
+dictionaries whose entries carry morphological description fields
+(`po:`, `st:`, `is:`, `ts:`, `al:`, `ds:`, `dp:` etc.; see man hunspell.5).
+The example above relies on the older en_US dictionary linked earlier in
+this README, which still ships these fields. Most current distributions
+of en_US, fr, nl and hu_HU do not, and `analyze`, `stem` and `generate`
+will return empty results for them. This is a dictionary property, not
+a library bug. See `tests/morph.aff` and `tests/morph.dic` for a minimal
+example.
+
 # Using Hunspell library with GCC
 
 Including in your program:

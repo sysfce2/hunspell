@@ -103,6 +103,16 @@ analysis. The plain generate() takes a second word as well. This extra
 word and its affixation serve as the model for morphologically generating
 the requested forms of the first word.
 .PP
+These functions only return useful results for dictionaries whose entries
+carry morphological description fields (po:, st:, is:, ts:, al:, ds:, dp:
+etc., as documented in \fBhunspell\fR(5)). Most widely distributed
+dictionaries (including the en_US, fr, nl and hu_HU dictionaries shipped
+by Linux distributions and LibreOffice) do not include this metadata, and
+analyze(), stem() and generate() will return an empty list for them. This
+is a property of the dictionary, not a bug in the library. See
+tests/morph.aff and tests/morph.dic in the Hunspell source tree for a
+minimal dictionary that exercises these functions.
+.PP
 The extended stem() and generate() use the results of a
 morphological analysis:
 .PP
