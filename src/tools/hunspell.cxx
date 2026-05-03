@@ -242,10 +242,12 @@ static const char* fix_encoding_name(const char* enc) {
 #endif
 
 /* change character encoding */
-std::string chenc(const std::string& st, const char* enc1, const char* enc2) {
+std::string chenc(const std::string& st, const char* enc1, const char* enc2,
+                  const char* context = NULL) {
 #ifndef HAVE_ICONV
   (void)enc1;
   (void)enc2;
+  (void)context;
   return st;
 #else
   if (st.empty())
@@ -261,6 +263,8 @@ std::string chenc(const std::string& st, const char* enc1, const char* enc2) {
   char* dest = &out[0];
   iconv_t conv = iconv_open(fix_encoding_name(enc2), fix_encoding_name(enc1));
   if (conv == (iconv_t)-1) {
+    if (context)
+      fprintf(stderr, "%s: ", context);
     fprintf(stderr, gettext("error - iconv_open: %s -> %s\n"), enc1, enc2);
   } else {
     size_t res;
@@ -275,6 +279,8 @@ std::string chenc(const std::string& st, const char* enc1, const char* enc2) {
         break;
     }
     if (res == (size_t)-1) {
+      if (context)
+        fprintf(stderr, "%s: ", context);
       fprintf(stderr, gettext("error - iconv: %s -> %s\n"), enc1, enc2);
     }
     iconv_close(conv);
@@ -506,8 +512,9 @@ void log(char* message) {
 }
 #endif
 
-int putdic(const std::string& in_word, Hunspell* pMS) {
-  std::string word = chenc(in_word, ui_enc, dic_enc[0]);
+int putdic(const std::string& in_word, Hunspell* pMS,
+           const char* context = NULL) {
+  std::string word = chenc(in_word, ui_enc, dic_enc[0], context);
 
   std::string buf;
   pMS->input_conv(word.c_str(), buf);
@@ -538,8 +545,12 @@ void load_privdic(const char* filename, Hunspell* pMS) {
   dic.open(filename, std::ios_base::in);
   if (dic.is_open()) {
     std::string buf;
+    int linenum = 0;
     while (std::getline(dic, buf)) {
-      putdic(buf, pMS);
+      ++linenum;
+      std::string ctx = std::string(filename) + ":" +
+                        std::to_string(linenum) + ": '" + buf + "'";
+      putdic(buf, pMS, ctx.c_str());
     }
   }
 }
