@@ -261,7 +261,7 @@ std::string chenc(const std::string& st, const char* enc1, const char* enc2) {
   char* dest = &out[0];
   iconv_t conv = iconv_open(fix_encoding_name(enc2), fix_encoding_name(enc1));
   if (conv == (iconv_t)-1) {
-    fprintf(stderr, gettext("error - iconv_open: %s -> %s\n"), enc2, enc1);
+    fprintf(stderr, gettext("error - iconv_open: %s -> %s\n"), enc1, enc2);
   } else {
     size_t res;
     while ((res = iconv(conv, &source, &c1, &dest, &c2)) == size_t(-1)) {
@@ -275,7 +275,7 @@ std::string chenc(const std::string& st, const char* enc1, const char* enc2) {
         break;
     }
     if (res == (size_t)-1) {
-      fprintf(stderr, gettext("error - iconv: %s -> %s\n"), enc2, enc1);
+      fprintf(stderr, gettext("error - iconv: %s -> %s\n"), enc1, enc2);
     }
     iconv_close(conv);
     out.resize(dest - &out[0]);
@@ -319,7 +319,7 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
       char* dest = text_conv;
       iconv_t conv = iconv_open("UTF-8", fix_encoding_name(denc));
       if (conv == (iconv_t)-1) {
-        fprintf(stderr, gettext("error - iconv_open: UTF-8 -> %s\n"), denc);
+        fprintf(stderr, gettext("error - iconv_open: %s -> UTF-8\n"), denc);
         wordchars_utf16 = NULL;
         wordchars_utf16_len = 0;
       } else {
@@ -341,7 +341,7 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
     *pletters = '\0';
     iconv_t conv = iconv_open("UTF-8", fix_encoding_name(io_enc));
     if (conv == (iconv_t)-1) {
-      fprintf(stderr, gettext("error - iconv_open: UTF-8 -> %s\n"), io_enc);
+      fprintf(stderr, gettext("error - iconv_open: %s -> UTF-8\n"), io_enc);
     } else {
       for (int i = 32; i < 256; i++) {
         size_t c1 = 1;
@@ -378,8 +378,8 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
       size_t c2 = len + 1;
       conv = iconv_open(fix_encoding_name(io_enc), fix_encoding_name(denc));
       if (conv == (iconv_t)-1) {
-        fprintf(stderr, gettext("error - iconv_open: %s -> %s\n"), io_enc,
-                denc);
+        fprintf(stderr, gettext("error - iconv_open: %s -> %s\n"), denc,
+                io_enc);
       } else {
         const char* wchars = vec_wordchars.c_str();
         iconv(conv, (ICONV_CONST char**)&wchars, &c1, &dest, &c2);
