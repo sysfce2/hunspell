@@ -4460,8 +4460,8 @@ bool AffixMgr::parse_affix(const std::string& line,
         if ((numents <= 0) || ((std::numeric_limits<size_t>::max() /
                                 sizeof(AffEntry)) < static_cast<size_t>(numents))) {
           std::string err = pHMgr->encode_flag(aflag);
-          HUNSPELL_WARNING(stderr, "error: line %d: bad entry number\n",
-                           af->getlinenum());
+          HUNSPELL_WARNING(stderr, "error: line %d: affix %s: bad entry number\n",
+                           af->getlinenum(), err.c_str());
           return false;
         }
 
@@ -4484,8 +4484,8 @@ bool AffixMgr::parse_affix(const std::string& line,
   // check to make sure we parsed enough pieces
   if (np != 4) {
     std::string err = pHMgr->encode_flag(aflag);
-    HUNSPELL_WARNING(stderr, "error: line %d: missing data\n",
-                     af->getlinenum());
+    HUNSPELL_WARNING(stderr, "error: line %d: affix %s: missing data\n",
+                     af->getlinenum(), err.c_str());
     return false;
   }
 
