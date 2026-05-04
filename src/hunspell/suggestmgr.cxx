@@ -1264,8 +1264,8 @@ void SuggestMgr::ngsuggest(std::vector<std::string>& wlst,
   std::string f;
   std::vector<w_char> w_f;
 
-  for (size_t i = 0; i < rHMgr.size(); ++i) {
-    while (nullptr != (hp = rHMgr[i]->walk_hashtable(col, hp))) {
+  for (const auto& i : rHMgr) {
+    while (nullptr != (hp = i->walk_hashtable(col, hp))) {
       // skip exceptions
       if (
            // skip it, if the word length different by 5 or
@@ -1964,11 +1964,11 @@ std::string SuggestMgr::suggest_gen(const std::vector<std::string>& desc, const 
 
   // search affixed forms with and without derivational suffixes
   while (true) {
-    for (size_t k = 0; k < desc.size(); ++k) {
+    for (const auto& k : desc) {
       std::string result;
 
       // add compound word parts (except the last one)
-      const char* s = desc[k].c_str();
+      const char* s = k.c_str();
       const char* part = strstr(s, MORPH_PART);
       if (part) {
         const char* nextpart = strstr(part + 1, MORPH_PART);

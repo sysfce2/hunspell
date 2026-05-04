@@ -75,8 +75,8 @@ int main(int, char** argv) {
     if (s) {
       *s = '\0';
       std::vector<std::string> result = pMS->generate(buf, s + 1);
-      for (size_t i = 0; i < result.size(); ++i) {
-        fprintf(stdout, "generate(%s, %s) = %s\n", buf, s + 1, result[i].c_str());
+      for (const auto& i : result) {
+        fprintf(stdout, "generate(%s, %s) = %s\n", buf, s + 1, i.c_str());
       }
       if (result.empty())
         fprintf(stdout, "generate(%s, %s) = NO DATA\n", buf, s + 1);
@@ -85,12 +85,12 @@ int main(int, char** argv) {
       fprintf(stdout, "> %s\n", buf);
       if (dp) {
         std::vector<std::string> result = pMS->analyze(buf);
-        for (size_t i = 0; i < result.size(); ++i) {
-          fprintf(stdout, "analyze(%s) = %s\n", buf, result[i].c_str());
+        for (const auto& i : result) {
+          fprintf(stdout, "analyze(%s) = %s\n", buf, i.c_str());
         }
         result = pMS->stem(buf);
-        for (size_t i = 0; i < result.size(); ++i) {
-          fprintf(stdout, "stem(%s) = %s\n", buf, result[i].c_str());
+        for (const auto& i : result) {
+          fprintf(stdout, "stem(%s) = %s\n", buf, i.c_str());
         }
       } else {
         fprintf(stdout, "Unknown word.\n");

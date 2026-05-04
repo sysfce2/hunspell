@@ -78,8 +78,8 @@ int main(int argc, char** argv) {
       fprintf(stdout, "\"%s\" is incorrect!\n", buf.c_str());
       fprintf(stdout, "   suggestions:\n");
       std::vector<std::string> wlst = pMS->suggest(buf.c_str());
-      for (size_t i = 0; i < wlst.size(); ++i) {
-        fprintf(stdout, "    ...\"%s\"\n", wlst[i].c_str());
+      for (const auto& i : wlst) {
+        fprintf(stdout, "    ...\"%s\"\n", i.c_str());
       }
       fprintf(stdout, "\n");
     }

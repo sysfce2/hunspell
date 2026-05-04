@@ -570,9 +570,9 @@ int save_privdic(const std::string& filename, const std::string& filename2, std:
   }
   if (!dic)
     return 0;
-  for (size_t i = 0; i < w.size(); ++i) {
-    w[i] = chenc(w[i], io_enc, ui_enc);
-    fprintf(dic, "%s\n", w[i].c_str());
+  for (auto& i : w) {
+    i = chenc(i, io_enc, ui_enc);
+    fprintf(dic, "%s\n", i.c_str());
   }
   fclose(dic);
   return 1;
@@ -899,16 +899,14 @@ nextline:
           case STEM: {
             std::vector<std::string> result =
               pMS[d]->stem(chenc(token, io_enc, dic_enc[d]));
-            for (size_t i = 0; i < result.size(); ++i) {
-              fprintf(stdout, "%s %s\n", token.c_str(),
-                      chenc(result[i], dic_enc[d], ui_enc).c_str());
+            for (const auto& i : result) {
+              fprintf(stdout, "%s %s\n", token.c_str(), chenc(i, dic_enc[d], ui_enc).c_str());
             }
             if (result.empty() && !token.empty() && token[token.size() - 1] == '.') {
               token.resize(token.size() - 1);
               result = pMS[d]->stem(token);
-              for (size_t i = 0; i < result.size(); ++i) {
-                fprintf(stdout, "%s %s\n", token.c_str(),
-                        chenc(result[i], dic_enc[d], ui_enc).c_str());
+              for (const auto& i : result) {
+                fprintf(stdout, "%s %s\n", token.c_str(), chenc(i, dic_enc[d], ui_enc).c_str());
               }
             }
             if (result.empty())
@@ -919,9 +917,8 @@ nextline:
 
           case SUFFIX: {
             std::vector<std::string> wlst = pMS[d]->suffix_suggest(token);
-            for (size_t j = 0; j < wlst.size(); ++j) {
-              fprintf(stdout, "Suffix Suggestions are %s \n",
-                      chenc(wlst[j], dic_enc[d], io_enc).c_str());
+            for (const auto& j : wlst) {
+              fprintf(stdout, "Suffix Suggestions are %s \n", chenc(j, dic_enc[d], io_enc).c_str());
             }
             fflush(stdout);
             continue;
@@ -929,16 +926,14 @@ nextline:
           case ANALYZE: {
             std::vector<std::string> result =
               pMS[d]->analyze(chenc(token, io_enc, dic_enc[d]));
-            for (size_t i = 0; i < result.size(); ++i) {
-              fprintf(stdout, "%s %s\n", token.c_str(),
-                      chenc(result[i], dic_enc[d], ui_enc).c_str());
+            for (const auto& i : result) {
+              fprintf(stdout, "%s %s\n", token.c_str(), chenc(i, dic_enc[d], ui_enc).c_str());
             }
             if (result.empty() && !token.empty() && token[token.size() - 1] == '.') {
               token.resize(token.size() - 1);
               result = pMS[d]->analyze(token);
-              for (size_t i = 0; i < result.size(); ++i) {
-                fprintf(stdout, "%s %s\n", token.c_str(),
-                        chenc(result[i], dic_enc[d], ui_enc).c_str());
+              for (const auto& i : result) {
+                fprintf(stdout, "%s %s\n", token.c_str(), chenc(i, dic_enc[d], ui_enc).c_str());
               }
             }
             if (result.empty())
@@ -973,8 +968,8 @@ nextline:
               prev_char_offset = char_offset;
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
-              for (size_t j = 0; j < wlst.size(); ++j) {
-                wlst[j] = chenc(wlst[j], dic_enc[d], io_enc);
+              for (auto& j : wlst) {
+                j = chenc(j, dic_enc[d], io_enc);
               }
               if (wlst.empty()) {
                 fprintf(stdout, "# %s %d", token.c_str(), char_offset);
@@ -1017,8 +1012,8 @@ nextline:
               prev_char_offset = char_offset;
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
-              for (size_t j = 0; j < wlst.size(); ++j) {
-                wlst[j] = chenc(wlst[j], dic_enc[d], ui_enc);
+              for (auto& j : wlst) {
+                j = chenc(j, dic_enc[d], ui_enc);
               }
               std::string token_ui = chenc(token, io_enc, ui_enc);
               if (wlst.empty()) {
@@ -1589,8 +1584,8 @@ int interactive_line(TextParser* parser,
       if (wlst.empty()) {
         dialogexit = dialog(parser, pMS[d], token, filename, wlst, info);
       } else {
-        for (size_t j = 0; j < wlst.size(); ++j) {
-          wlst[j] = chenc(wlst[j], dic_enc[d], io_enc);
+        for (auto& j : wlst) {
+          j = chenc(j, dic_enc[d], io_enc);
         }
         dialogexit = dialog(parser, pMS[d], token, filename, wlst, info);
       }
@@ -2067,8 +2062,8 @@ int main(int argc, char** argv) {
        * LANG
       */
       const char* tests[] = {"LC_ALL", "LC_MESSAGES", "LANG"};
-      for (size_t i = 0; i < sizeof(tests) / sizeof(const char*); ++i) {
-        if ((dicname = getenv(tests[i])) && strcmp(dicname, "") != 0) {
+      for (auto& test : tests) {
+        if ((dicname = getenv(test)) && strcmp(dicname, "") != 0) {
           dicname = mystrdup(dicname);
           char* dot = strchr(dicname, '.');
           if (dot)
@@ -2104,12 +2099,12 @@ int main(int argc, char** argv) {
     path_std_str.append(LIBDIR).append(PATHSEP);
     if (HOME) {
       const char * userooodir[] = USEROOODIR;
-      for(size_t i = 0; i < sizeof(userooodir)/sizeof(userooodir[0]); ++i) {
+      for (auto& i : userooodir) {
         path_std_str += HOME;
 #ifndef _WIN32
         path_std_str += DIRSEP;
 #endif
-        path_std_str.append(userooodir[i]).append(PATHSEP);
+        path_std_str.append(i).append(PATHSEP);
       }
       path_std_str.append(OOODIR);
     }

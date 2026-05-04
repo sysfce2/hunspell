@@ -2528,8 +2528,8 @@ int get_captype(const std::string& word, const cs_info* csconv) {
   size_t firstcap = 0;
   if (csconv == nullptr)
     return NOCAP;
-  for (auto q = word.begin(); q != word.end(); ++q) {
-    const auto nIndex = static_cast<unsigned char>(*q);
+  for (char q : word) {
+    const auto nIndex = static_cast<unsigned char>(q);
     if (ccase(csconv, nIndex))
       ncap++;
     if (cupper(csconv, nIndex) == clower(csconv, nIndex))

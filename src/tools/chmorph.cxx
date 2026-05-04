@@ -86,13 +86,13 @@ int main(int, char** argv) {
       std::vector<std::string> pl = pMS->analyze(next);
       if (!pl.empty()) {
         int gen = 0;
-        for (size_t i = 0; i < pl.size(); ++i) {
-          const char* pos = strstr(pl[i].c_str(), argv[4]);
+        for (auto& i : pl) {
+          const char* pos = strstr(i.c_str(), argv[4]);
           if (pos) {
-            std::string r(pl[i], pos - pl[i].c_str());
+            std::string r(i, pos - i.c_str());
             r.append(argv[5]);
             r.append(pos + strlen(argv[4]));
-            pl[i] = std::move(r);
+            i = std::move(r);
             gen = 1;
           }
         }
