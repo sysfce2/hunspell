@@ -212,7 +212,6 @@ AffixMgr::~AffixMgr() {
       nptr = ptr->getNext();
       delete (ptr);
       ptr = nptr;
-      nptr = nullptr;
     }
   }
 
@@ -225,7 +224,6 @@ AffixMgr::~AffixMgr() {
       nptr = ptr->getNext();
       delete (ptr);
       ptr = nptr;
-      nptr = nullptr;
     }
     sStart[j] = nullptr;
   }
