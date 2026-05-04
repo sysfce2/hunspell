@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
       al = strlen(ap);
     } else {
       al = 0;
-      ap = NULL;
+      ap = nullptr;
     }
 
     int wl = strlen(ts);
@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
     for (i = 0; i < numwords; i++) {
       fprintf(stdout, "%s\n", wlist[i].word);
       free(wlist[i].word);
-      wlist[i].word = NULL;
+      wlist[i].word = nullptr;
       wlist[i].pallow = 0;
     }
   }
@@ -162,8 +162,8 @@ int parse_aff_file(FILE* afflst) {
   int numents = 0;
   char achar = '\0';
   short ff = 0;
-  struct affent* ptr = NULL;
-  struct affent* nptr = NULL;
+  struct affent* ptr = nullptr;
+  struct affent* nptr = nullptr;
   char* line = (char*)malloc(MAX_LN_LEN);
 
   while (fgets(line, MAX_LN_LEN, afflst)) {
@@ -305,9 +305,9 @@ int parse_aff_file(FILE* afflst) {
             free(ptr);
           }
         }
-        ptr = NULL;
+        ptr = nullptr;
       }
-      nptr = NULL;
+      nptr = nullptr;
       numents = 0;
       achar = '\0';
     }
@@ -513,7 +513,7 @@ int expand_rootword(const char* ts, int wl, const char* ap) {
  * a delim string
  */
 char* mystrsep(char** stringp, const char delim) {
-  char* rv = NULL;
+  char* rv = nullptr;
   char* mp = *stringp;
   int n = strlen(mp);
   if (n > 0) {
@@ -540,7 +540,7 @@ char* mystrsep(char** stringp, const char delim) {
 }
 
 char* mystrdup(const char* s) {
-  char* d = NULL;
+  char* d = nullptr;
   if (s) {
     int sl = strlen(s) + 1;
     d = (char*)malloc(sl);

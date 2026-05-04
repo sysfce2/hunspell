@@ -126,9 +126,9 @@ int main(int argc, char** argv) {
 
   for (i = 0; i < tablesize; i++) {
     ep = &tableptr[i];
-    if (ep->word == NULL)
+    if (ep->word == nullptr)
       continue;
-    for (; ep != NULL; ep = ep->next) {
+    for (; ep != nullptr; ep = ep->next) {
       numroots = 0;
       aff_chk(ep->word, strlen(ep->word));
       if (numroots) {
@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
             if (lookup(wlist[k].word))
               n++;
             free(wlist[k].word);
-            wlist[k].word = NULL;
+            wlist[k].word = nullptr;
             wlist[k].pallow = 0;
           }
 
@@ -201,9 +201,9 @@ int main(int argc, char** argv) {
           pfxp = roots[p].prefix;
           sfxp = roots[p].suffix;
           ep1->keep = 1;
-          if (pfxp != NULL)
+          if (pfxp != nullptr)
             add_affix_char(ep1, pfxp->achar);
-          if (sfxp != NULL)
+          if (sfxp != nullptr)
             add_affix_char(ep1, sfxp->achar);
         } else {
           ep->keep = 1;
@@ -219,9 +219,9 @@ int main(int argc, char** argv) {
   k = 0;
   for (i = 0; i < tablesize; i++) {
     ep = &tableptr[i];
-    if (ep->word == NULL)
+    if (ep->word == nullptr)
       continue;
-    for (; ep != NULL; ep = ep->next) {
+    for (; ep != nullptr; ep = ep->next) {
       if (ep->keep > 0)
         k++;
     }
@@ -230,11 +230,11 @@ int main(int argc, char** argv) {
 
   for (i = 0; i < tablesize; i++) {
     ep = &tableptr[i];
-    if (ep->word == NULL)
+    if (ep->word == nullptr)
       continue;
-    for (; ep != NULL; ep = ep->next) {
+    for (; ep != nullptr; ep = ep->next) {
       if (ep->keep > 0) {
-        if (ep->affstr != NULL) {
+        if (ep->affstr != nullptr) {
           fprintf(stdout, "%s/%s\n", ep->word, ep->affstr);
         } else {
           fprintf(stdout, "%s\n", ep->word);
@@ -250,8 +250,8 @@ int parse_aff_file(FILE* afflst) {
   int numents = 0;
   char achar = '\0';
   short ff = 0;
-  struct affent* ptr = NULL;
-  struct affent* nptr = NULL;
+  struct affent* ptr = nullptr;
+  struct affent* nptr = nullptr;
   char* line = (char*)malloc(MAX_LN_LEN);
 
   while (fgets(line, MAX_LN_LEN, afflst)) {
@@ -378,8 +378,8 @@ int parse_aff_file(FILE* afflst) {
           free(ptr);
         }
       }
-      ptr = NULL;
-      nptr = NULL;
+      ptr = nullptr;
+      nptr = nullptr;
       numents = 0;
       achar = '\0';
     }
@@ -498,11 +498,11 @@ void pfx_chk(const char* word, int len, struct affent* ep, int num) {
       }
 
       if (cond >= aent->numconds) {
-        if ((hent = lookup(tword.c_str())) != NULL) {
+        if ((hent = lookup(tword.c_str())) != nullptr) {
           if (numroots < MAX_ROOTS) {
             roots[numroots].hashent = hent;
             roots[numroots].prefix = aent;
-            roots[numroots].suffix = NULL;
+            roots[numroots].suffix = nullptr;
             numroots++;
           }
         }
@@ -540,7 +540,7 @@ void suf_chk(const char* word,
           break;
       }
       if (cond < 0) {
-        if ((hent = lookup(tword.c_str())) != NULL) {
+        if ((hent = lookup(tword.c_str())) != nullptr) {
           if (numroots < MAX_ROOTS) {
             roots[numroots].hashent = hent;
             roots[numroots].prefix = pfxent;
@@ -580,7 +580,7 @@ void aff_chk(const char* word, int len) {
     }
   }
   for (i = 0; i < numsfx; i++) {
-    suf_chk(word, len, stable[i].aep, stable[i].num, NULL, 0);
+    suf_chk(word, len, stable[i].aep, stable[i].num, nullptr, 0);
   }
 }
 
@@ -589,13 +589,13 @@ void aff_chk(const char* word, int len) {
 struct hentry* lookup(const char* word) {
   struct hentry* dp;
   dp = &tableptr[hash(word)];
-  if (dp->word == NULL)
-    return NULL;
-  for (; dp != NULL; dp = dp->next) {
+  if (dp->word == nullptr)
+    return nullptr;
+  for (; dp != nullptr; dp = dp->next) {
     if (strcmp(word, dp->word) == 0)
       return dp;
   }
-  return NULL;
+  return nullptr;
 }
 
 /* add a word to the hash table */
@@ -606,18 +606,18 @@ int add_word(char* word) {
   struct hentry* hp = (struct hentry*)malloc(sizeof(struct hentry));
 
   hp->word = word;
-  hp->affstr = NULL;
+  hp->affstr = nullptr;
   hp->keep = 0;
-  hp->next = NULL;
+  hp->next = nullptr;
 
   i = hash(word);
   dp = &tableptr[i];
 
-  if (dp->word == NULL) {
+  if (dp->word == nullptr) {
     *dp = *hp;
     free(hp);
   } else {
-    while (dp->next != NULL)
+    while (dp->next != nullptr)
       dp = dp->next;
     dp->next = hp;
   }
@@ -682,7 +682,7 @@ void add_affix_char(struct hentry* ep, char ac) {
   int al;
   int i;
   char* tmp;
-  if (ep->affstr == NULL) {
+  if (ep->affstr == nullptr) {
     ep->affstr = (char*)malloc(2);
     *(ep->affstr) = ac;
     *((ep->affstr) + 1) = '\0';
@@ -823,7 +823,7 @@ int expand_rootword(const char* ts, int wl, const char* ap) {
  * a delim string
  */
 char* mystrsep(char** stringp, const char delim) {
-  char* rv = NULL;
+  char* rv = nullptr;
   char* mp = *stringp;
   int n = strlen(mp);
   if (n > 0) {
@@ -850,7 +850,7 @@ char* mystrsep(char** stringp, const char delim) {
 }
 
 char* mystrdup(const char* s) {
-  char* d = NULL;
+  char* d = nullptr;
   if (s) {
     int sl = strlen(s) + 1;
     d = (char*)malloc(sl);

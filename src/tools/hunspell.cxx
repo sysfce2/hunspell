@@ -191,13 +191,13 @@ enum { FMT_TEXT, FMT_LATEX, FMT_HTML, FMT_MAN, FMT_FIRST, FMT_XML, FMT_ODF };
 // global variables
 
 std::string wordchars;
-char* dicpath = NULL;
-const w_char* wordchars_utf16 = NULL;
+char* dicpath = nullptr;
+const w_char* wordchars_utf16 = nullptr;
 std::vector<w_char> new_wordchars_utf16;
 int wordchars_utf16_len;
-char* dicname = NULL;
-char* privdicname = NULL;
-const char* currentfilename = NULL;
+char* dicname = nullptr;
+char* privdicname = nullptr;
+const char* currentfilename = nullptr;
 
 int modified;  // modified file sign
 bool multiple_files; // for listing file names in pipe interface
@@ -222,13 +222,13 @@ int showpath = 0;   // show detected path of the dictionary
 int checkurl = 0;   // check URLs and mail addresses
 int checkapos = 0;  // force typographic apostrophe
 int warn = 0;  // warn potential mistakes (dictionary words with WARN flags)
-const char* ui_enc = NULL;  // locale character encoding (default for I/O)
-const char* io_enc = NULL;  // I/O character encoding
+const char* ui_enc = nullptr;  // locale character encoding (default for I/O)
+const char* io_enc = nullptr;  // I/O character encoding
 
 #define DMAX 10  // maximal count of loaded dictionaries
 
 const char* dic_enc[DMAX];  // dictionary encoding
-char* path = NULL;
+char* path = nullptr;
 int dmax = 0;  // dictionary count
 
 // functions
@@ -242,8 +242,7 @@ static const char* fix_encoding_name(const char* enc) {
 #endif
 
 /* change character encoding */
-std::string chenc(const std::string& st, const char* enc1, const char* enc2,
-                  const char* context = NULL) {
+std::string chenc(const std::string& st, const char* enc1, const char* enc2, const char* context = nullptr) {
 #ifndef HAVE_ICONV
   (void)enc1;
   (void)enc2;
@@ -293,7 +292,7 @@ std::string chenc(const std::string& st, const char* enc1, const char* enc2,
 }
 
 TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
-  TextParser* p = NULL;
+  TextParser* p = nullptr;
   int io_utf8 = 0;
   const char* denc = pMS->get_dict_encoding().c_str();
 #ifdef HAVE_ICONV
@@ -317,7 +316,7 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
     const std::vector<w_char>& vec_wordchars_utf16 = pMS->get_wordchars_utf16();
     const std::string& vec_wordchars = pMS->get_wordchars_cpp();
     wordchars_utf16_len = vec_wordchars_utf16.size();
-    wordchars_utf16 = wordchars_utf16_len ? vec_wordchars_utf16.data() : NULL;
+    wordchars_utf16 = wordchars_utf16_len ? vec_wordchars_utf16.data() : nullptr;
     if ((strcmp(denc, "UTF-8") != 0) && !vec_wordchars.empty()) {
       const char* wchars = vec_wordchars.c_str();
       size_t c1 = vec_wordchars.size();
@@ -326,7 +325,7 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
       iconv_t conv = iconv_open("UTF-8", fix_encoding_name(denc));
       if (conv == (iconv_t)-1) {
         fprintf(stderr, gettext("error - iconv_open: %s -> UTF-8\n"), denc);
-        wordchars_utf16 = NULL;
+        wordchars_utf16 = nullptr;
         wordchars_utf16_len = 0;
       } else {
         iconv(conv, (ICONV_CONST char**)&wchars, &c1, &dest, &c2);
@@ -466,10 +465,8 @@ TextParser* get_parser(int format, const char* extension, Hunspell* pMS) {
       } else {
         p = new XMLParser(wordchars.c_str());
       }
-    } else if (((strlen(extension) == 3) &&
-                (strstr(ODF_EXT, extension) != NULL)) ||
-               ((strlen(extension) == 4) && (extension[0] == 'f') &&
-                (strstr(ODF_EXT, extension + 1) != NULL))) {
+    } else if (((strlen(extension) == 3) && (strstr(ODF_EXT, extension) != nullptr)) ||
+               ((strlen(extension) == 4) && (extension[0] == 'f') && (strstr(ODF_EXT, extension + 1) != nullptr))) {
       if (io_utf8) {
         p = new ODFParser(wordchars_utf16, wordchars_utf16_len);
       } else {
@@ -512,8 +509,7 @@ void log(char* message) {
 }
 #endif
 
-int putdic(const std::string& in_word, Hunspell* pMS,
-           const char* context = NULL) {
+int putdic(const std::string& in_word, Hunspell* pMS, const char* context = nullptr) {
   std::string word = chenc(in_word, ui_enc, dic_enc[0], context);
 
   std::string buf;
@@ -592,7 +588,7 @@ const char* basename(const char* s, char c) {
 }
 
 char* mystrdup(const char* s) {
-  char* d = NULL;
+  char* d = nullptr;
   if (s) {
     int sl = strlen(s) + 1;
     d = (char*)malloc(sl);
@@ -681,13 +677,13 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
   int terse_mode = 0;
   int verbose_mode = 0;
   int d = 0;
-  char* odftmpdir = NULL;
+  char* odftmpdir = nullptr;
 
   bool io_is_utf8 = io_enc && strcmp(io_enc, "UTF-8") == 0;
 
   std::string filename_prefix = (multiple_files) ? filename + std::string(": ") : "";
 
-  const char* extension = (filename) ? basename(filename, '.') : NULL;
+  const char* extension = (filename) ? basename(filename, '.') : nullptr;
   TextParser* parser = get_parser(format, extension, pMS[0]);
   char tmpdirtemplate[] = "/tmp/hunspellXXXXXX";
 
@@ -722,7 +718,7 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
     std::string file(odftmpdir);
     file.append("/content.xml");
     fileid = fopen(file.c_str(), "r");
-    if (fileid == NULL) {
+    if (fileid == nullptr) {
       perror(gettext("Can't open inputfile"));
       if (system((std::string("rmdir \"") + odftmpdir + "\"").c_str()) != 0) {
         perror("temp dir delete failed");
@@ -769,13 +765,13 @@ nextline:
         }
         case '+': {
           delete parser;
-          parser = get_parser(FMT_LATEX, NULL, pMS[0]);
+          parser = get_parser(FMT_LATEX, nullptr, pMS[0]);
           parser->set_url_checking(checkurl);
           break;
         }
         case '-': {
           delete parser;
-          parser = get_parser(format, NULL, pMS[0]);
+          parser = get_parser(format, nullptr, pMS[0]);
           break;
         }
         case '@': {
@@ -835,7 +831,7 @@ nextline:
         switch (filter_mode) {
           case BADWORD: {
             int info;
-            if (!check(pMS, &d, token, &info, NULL)) {
+            if (!check(pMS, &d, token, &info, nullptr)) {
               bad = 1;
               if (!printgood)
                 fprintf(stdout, "%s%s\n", filename_prefix.c_str(), token.c_str());
@@ -848,7 +844,7 @@ nextline:
 
           case WORDFILTER: {
             int info;
-            if (!check(pMS, &d, parser->get_word(token), &info, NULL)) {
+            if (!check(pMS, &d, parser->get_word(token), &info, nullptr)) {
               if (!printgood)
                 fprintf(stdout, "%s\n", buf);
             } else {
@@ -860,7 +856,7 @@ nextline:
 
           case BADLINE: {
             int info;
-            if (!check(pMS, &d, parser->get_word(token), &info, NULL)) {
+            if (!check(pMS, &d, parser->get_word(token), &info, nullptr)) {
               bad = 1;
             }
             continue;
@@ -872,7 +868,7 @@ nextline:
           case AUTO3: {
             FILE* f = (filter_mode == AUTO) ? stderr : stdout;
             int info;
-            if (!check(pMS, &d, parser->get_word(token), &info, NULL)) {
+            if (!check(pMS, &d, parser->get_word(token), &info, nullptr)) {
               bad = 1;
               std::vector<std::string> wlst =
                   pMS[d]->suggest(chenc(parser->get_word(token), io_enc, dic_enc[d]));
@@ -1092,8 +1088,8 @@ static const char* rltext;
 static int set_rltext() {
   if (rltext) {
     rl_insert_text(rltext);
-    rltext = NULL;
-    rl_startup_hook = (rl_hook_func_t*)NULL;
+    rltext = nullptr;
+    rl_startup_hook = (rl_hook_func_t*)nullptr;
   }
   return 0;
 }
@@ -1113,7 +1109,7 @@ int expand_tab(std::string& dest, const std::string& in_src) {
   dest.clear();
   dest.reserve(in_src.size());
   const char *src = in_src.c_str();
-  int u8 = ((ui_enc != NULL) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
+  int u8 = ((ui_enc != nullptr) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
   int chpos = 0;
   for (int j = 0; (src[j] != '\0') && (src[j] != '\r'); j++) {
     if (src[j] == '\t') {
@@ -1141,7 +1137,7 @@ void strncpyu8(std::string& dest, const std::string& in_src, int begin, int n) {
   dest.clear();
   const char *src = in_src.c_str();
   if (n) {
-    int u8 = ((ui_enc != NULL) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
+    int u8 = ((ui_enc != nullptr) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
     for (int i = 0; i < begin + n;) {
       if (!*src)
         break;  // source is at it's end
@@ -1163,7 +1159,7 @@ void strncpyu8(std::string& dest, const std::string& in_src, int begin, int n) {
 // See strncpyu8 for gotchas
 int strlenu8(const std::string& in_src) {
   const char *src = in_src.c_str();
-  int u8 = ((ui_enc != NULL) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
+  int u8 = ((ui_enc != nullptr) && (strcmp(ui_enc, "UTF-8") == 0)) ? 1 : 0;
   int i = 0;
   while (*src) {
     if (!u8 || (*src & 0xc0) != 0x80)
@@ -1584,7 +1580,7 @@ int interactive_line(TextParser* parser,
   int d = 0;
   std::string token;
   while (parser->next_token(token)) {
-    if (!check(pMS, &d, parser->get_word(token), &info, NULL)) {
+    if (!check(pMS, &d, parser->get_word(token), &info, nullptr)) {
       std::vector<std::string> wlst;
       dialogscreen(parser, token, filename, info, wlst);  // preview
       refresh();
@@ -1610,9 +1606,9 @@ ki2:
 
 void interactive_interface(Hunspell** pMS, char* filename, int format) {
   char buf[MAXLNLEN];
-  char* odffilename = NULL;
-  char* odftmpdir = NULL;  // external zip works only with temporary directories
-                            // (option -j)
+  char* odffilename = nullptr;
+  char* odftmpdir = nullptr;  // external zip works only with temporary directories
+                              // (option -j)
 
   FILE* text = fopen(filename, "r");
   if (!text) {
@@ -1716,7 +1712,7 @@ void interactive_interface(Hunspell** pMS, char* filename, int format) {
   if (modified) {
     rewind(tempfile);
     text = fopen(filename, "wb");
-    if (text == NULL)
+    if (text == nullptr)
       perror(gettext("Can't open outputfile"));
     else {
       size_t n;
@@ -1766,7 +1762,7 @@ char* exist2(char* dir, int len, const char* name, const char* ext) {
     buf.erase(buf.size() - strlen(HZIP_EXTENSION));
     return mystrdup(buf.c_str());
   }
-  return NULL;
+  return nullptr;
 }
 
 #if !defined(WIN32) || defined(__MINGW32__)
@@ -1800,7 +1796,7 @@ char* search(char* begin, char* name, const char* ext) {
   while (1) {
     while (!((*end == *PATHSEP) || (*end == '\0')))
       end++;
-    char* res = NULL;
+    char* res = nullptr;
     if (name) {
       res = exist2(begin, int(end - begin), name, ext);
     } else {
@@ -1818,7 +1814,7 @@ char* search(char* begin, char* name, const char* ext) {
 int main(int argc, char** argv) {
   std::string buf;
   Hunspell* pMS[DMAX];
-  char* key = NULL;
+  char* key = nullptr;
   int arg_files = -1;  // first filename argumentum position in argv
   int format = FMT_TEXT;
   int argstate = 0;
@@ -2126,7 +2122,7 @@ int main(int argc, char** argv) {
         stderr, "%s",
         gettext(
             "AVAILABLE DICTIONARIES (path is not mandatory for -d option):\n"));
-    search(path, NULL, NULL);
+    search(path, nullptr, nullptr);
   }
 
   if (!privdicname)
@@ -2215,7 +2211,7 @@ int main(int argc, char** argv) {
   }
 
   if (arg_files == -1) {
-    pipe_interface(pMS, format, stdin, NULL);
+    pipe_interface(pMS, format, stdin, nullptr);
   } else if (filter_mode != NORMAL) {
     for (int i = arg_files; i < argc; i++) {
       if (exist(argv[i])) {

@@ -2330,7 +2330,7 @@ const struct cs_info* get_current_cs(const std::string& es) {
   char* normalized_encoding = new char[es.size() + 1];
   toAsciiLowerAndRemoveNonAlphanumeric(es.c_str(), normalized_encoding);
 
-  const struct cs_info* ccs = NULL;
+  const struct cs_info* ccs = nullptr;
   for (const auto& encd : encds) {
     if (strcmp(normalized_encoding, encd.enc_name) == 0) {
       ccs = encd.cs_table;
@@ -2535,7 +2535,7 @@ int get_captype(const std::string& word, const cs_info* csconv) {
   size_t ncap = 0;
   size_t nneutral = 0;
   size_t firstcap = 0;
-  if (csconv == NULL)
+  if (csconv == nullptr)
     return NOCAP;
   for (auto q = word.begin(); q != word.end(); ++q) {
     const auto nIndex = static_cast<unsigned char>(*q);

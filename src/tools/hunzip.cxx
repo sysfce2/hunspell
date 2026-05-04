@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
     fprintf(stderr, DESC);
     return 1;
   }
-  Hunzip h(argv[1], (argc > 2) ? argv[2] : NULL);
+  Hunzip h(argv[1], (argc > 2) ? argv[2] : nullptr);
   if (!h.is_open())
     return 0;
   std::string s;

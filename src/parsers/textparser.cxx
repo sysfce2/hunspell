@@ -101,7 +101,7 @@ const char* TextParser::get_latin1(const char* s) {
     if (i != LATIN1_LEN)
       return LATIN1[i];
   }
-  return NULL;
+  return nullptr;
 }
 
 void TextParser::init(const char* wordchars) {
@@ -111,7 +111,7 @@ void TextParser::init(const char* wordchars) {
   state = 0;
   utf8 = 0;
   checkurl = 0;
-  wordchars_utf16 = NULL;
+  wordchars_utf16 = nullptr;
   wclen = 0;
   wordcharacters.resize(256, 0);
   if (!wordchars)

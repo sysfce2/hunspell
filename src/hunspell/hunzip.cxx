@@ -97,7 +97,7 @@ int Hunzip::getcode(const char* key) {
       return fail(MSG_KEY, filename);
     enc = key;
   } else
-    key = NULL;
+    key = nullptr;
 
   // read record count
   if (!fin.read(reinterpret_cast<char*>(c), 2))

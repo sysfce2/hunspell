@@ -56,13 +56,13 @@ static const char* __PATTERN__[][2] = {{"<!--", "-->"},
 #define __PATTERN_LEN__ (sizeof(__PATTERN__) / (sizeof(char*) * 2))
 
 // for checking attributes, eg. <img alt="text"> in HTML
-static const char* (*__PATTERN2__)[2] = NULL;
+static const char* (*__PATTERN2__)[2] = nullptr;
 
 #define __PATTERN_LEN2__ 0
 
 // for checking words with in-word patterns
 // for example, "exam<text:span>p</text:span>le" in ODT
-static const char* (*__PATTERN3__)[2] = NULL;
+static const char* (*__PATTERN3__)[2] = nullptr;
 
 #define __PATTERN_LEN3__ 0
 
@@ -237,9 +237,8 @@ std::string XMLParser::get_word2(
 }
 
 int XMLParser::change_token(const char* word) {
-  if (strstr(word, APOSTROPHE) != NULL || strchr(word, '"') != NULL ||
-      strchr(word, '&') != NULL || strchr(word, '<') != NULL ||
-      strchr(word, '>') != NULL) {
+  if (strstr(word, APOSTROPHE) != nullptr || strchr(word, '"') != nullptr || strchr(word, '&') != nullptr ||
+      strchr(word, '<') != nullptr || strchr(word, '>') != nullptr) {
     std::string r(word);
     mystrrep(r, "&", "__namp;__");
     mystrrep(r, "__namp;__", "&amp;");

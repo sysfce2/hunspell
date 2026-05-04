@@ -112,13 +112,13 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
    * long path names (without the long path prefix Hunspell will use fopen()
    * with system-dependent character encoding instead of _wfopen()).
    */
-  Hunspell(const char* affpath, const char* dpath, const char* key = NULL);
+  Hunspell(const char* affpath, const char* dpath, const char* key = nullptr);
   Hunspell(const Hunspell&) = delete;
   Hunspell& operator=(const Hunspell&) = delete;
   ~Hunspell();
 
   /* load extra dictionaries (only dic files) */
-  int add_dic(const char* dpath, const char* key = NULL);
+  int add_dic(const char* dpath, const char* key = nullptr);
 
   /* spell(word) - spellcheck word
    * output: false = bad word, true = good word
@@ -129,8 +129,8 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
    *     SPELL_FORBIDDEN = an explicit forbidden word
    *   root: root (stem), when input is a word with affix(es)
    */
-  bool spell(const std::string& word, int* info = NULL, std::string* root = NULL);
-  H_DEPRECATED int spell(const char* word, int* info = NULL, char** root = NULL);
+  bool spell(const std::string& word, int* info = nullptr, std::string* root = nullptr);
+  H_DEPRECATED int spell(const char* word, int* info = nullptr, char** root = nullptr);
 
   /* suggest(suggestions, word) - search suggestions
    * input: pointer to an array of strings pointer and the (bad) word

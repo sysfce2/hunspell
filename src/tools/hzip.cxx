@@ -135,12 +135,12 @@ int get_freqdata(struct item*** dest, FILE* f, unsigned short* termword) {
     return -1;
   for (i = 0, n = 0; i < CODELEN; i++)
     if (freq[i]) {
-      (*dest)[n] = newitem(freq[i], NULL, NULL, code_LEAF);
+      (*dest)[n] = newitem(freq[i], nullptr, nullptr, code_LEAF);
       (*dest)[n]->word = i;
       n++;
     }
   /* terminal sequence (also contains the last odd byte of the file) */
-  (*dest)[n] = newitem(1, NULL, NULL, code_TERM);
+  (*dest)[n] = newitem(1, nullptr, nullptr, code_TERM);
   *termword = u.word;
   return n + 1;
 }
@@ -162,7 +162,7 @@ void get_codetable(struct item** l, int n, char** table) {
       l[i - 1] = l[i];
     n--;
   }
-  code2table(l[0], table, NULL, 0);
+  code2table(l[0], table, nullptr, 0);
 }
 
 int write_bits(FILE* f, char* bitbuf, int* bits, char* code) {
@@ -345,7 +345,7 @@ int hzip(const char* filename, char* key) {
   FILE *tempfile = tmpfile();
   if (!tempfile) {
     fclose(f);
-    return fail("hzip: cannot create temporary file\n", NULL);
+    return fail("hzip: cannot create temporary file\n", nullptr);
   }
 
   std::string out(filename);
@@ -357,12 +357,12 @@ int hzip(const char* filename, char* key) {
     return fail("hzip: %s: Permission denied\n", out.c_str());
   }
   for (n = 0; n < CODELEN; n++)
-    table[n] = NULL;
+    table[n] = nullptr;
   if (prefixcompress(f, tempfile) != 0) {
     fclose(f2);
     fclose(tempfile);
     fclose(f);
-    return fail("hzip: cannot write file\n", NULL);
+    return fail("hzip: cannot write file\n", nullptr);
   }
   rewind(tempfile);
   n = get_freqdata(&list, tempfile, &termword);
@@ -374,20 +374,20 @@ int hzip(const char* filename, char* key) {
   fclose(tempfile);
   fclose(f);
   if (n != 0)
-    return fail("hzip: cannot write file\n", NULL);
+    return fail("hzip: cannot write file\n", nullptr);
   return n;
 }
 
 int main(int argc, char** argv) {
   int i, j = 0;
-  char* key = NULL;
+  char* key = nullptr;
   for (i = 1; i < argc; i++) {
     if (*(argv[i]) == '-') {
       if (*(argv[i] + 1) == 'h')
-        return fail(DESC, NULL);
+        return fail(DESC, nullptr);
       if (*(argv[i] + 1) == 'P') {
         if (i + 1 == argc)
-          return fail("hzip: missing password\n", NULL);
+          return fail("hzip: missing password\n", nullptr);
         key = argv[i + 1];
         i++;
         continue;
@@ -399,6 +399,6 @@ int main(int argc, char** argv) {
       j = 1;
   }
   if (j == 0)
-    return fail("hzip: need a filename parameter\n", NULL);
+    return fail("hzip: need a filename parameter\n", nullptr);
   return 0;
 }

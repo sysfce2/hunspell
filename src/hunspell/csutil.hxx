@@ -282,7 +282,7 @@ inline bool has_no_ignored_chars(const std::string& word,
 inline char* HENTRY_DATA(struct hentry* h) {
   char* ret;
   if (!(h->var & H_OPT))
-    ret = NULL;
+    ret = nullptr;
   else if (h->var & H_OPT_ALIASM)
     ret = get_stored_pointer(HENTRY_WORD(h) + h->blen + 1);
   else
@@ -294,7 +294,7 @@ inline const char* HENTRY_DATA(
     const struct hentry* h) {
   const char* ret;
   if (!(h->var & H_OPT))
-    ret = NULL;
+    ret = nullptr;
   else if (h->var & H_OPT_ALIASM)
     ret = get_stored_pointer(HENTRY_WORD(h) + h->blen + 1);
   else
@@ -317,7 +317,7 @@ inline const char* HENTRY_DATA2(
 
 inline char* HENTRY_FIND(struct hentry* h, const char* p) {
   char* data = HENTRY_DATA(h);
-  return data ? strstr(data, p) : NULL;
+  return data ? strstr(data, p) : nullptr;
 }
 
 #endif

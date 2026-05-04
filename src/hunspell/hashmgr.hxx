@@ -108,7 +108,7 @@ class HashMgr {
   std::vector<replentry> reptable;
 
  public:
-  HashMgr(const char* tpath, const char* apath, const char* key = NULL);
+  HashMgr(const char* tpath, const char* apath, const char* key = nullptr);
   ~HashMgr();
 
   struct hentry* lookup(const char* word, size_t len) const;

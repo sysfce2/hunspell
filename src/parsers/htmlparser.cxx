@@ -69,7 +69,7 @@ static const char* PATTERN2[][2] = {
 
 #define PATTERN_LEN2 (sizeof(PATTERN2) / (sizeof(char*) * 2))
 
-static const char* (*PATTERN3)[2] = NULL;
+static const char* (*PATTERN3)[2] = nullptr;
 
 #define PATTERN_LEN3 0
 
