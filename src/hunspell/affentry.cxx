@@ -130,7 +130,7 @@ inline int PfxEntry::test_condition(const std::string& s) {
   if (numconds == 0)
     return 1;
   char* p = c.conds;
-  while (1) {
+  while (true) {
     switch (*p) {
       case '\0':
         return 1;
@@ -499,7 +499,7 @@ inline int SfxEntry::test_condition(const char* st, const char* beg) {
   char* p = c.conds;
   st--;
   int i = 1;
-  while (1) {
+  while (true) {
     switch (*p) {
       case '\0':
         return 1;

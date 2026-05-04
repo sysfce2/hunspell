@@ -1963,7 +1963,7 @@ std::string SuggestMgr::suggest_gen(const std::vector<std::string>& desc, const 
   struct hentry* rv = nullptr;
 
   // search affixed forms with and without derivational suffixes
-  while (1) {
+  while (true) {
     for (size_t k = 0; k < desc.size(); ++k) {
       std::string result;
 

@@ -1793,7 +1793,7 @@ int listdicpath(char* dir, int len) {
 // search existing path for file "name + ext"
 char* search(char* begin, char* name, const char* ext) {
   char* end = begin;
-  while (1) {
+  while (true) {
     while (!((*end == *PATHSEP) || (*end == '\0')))
       end++;
     char* res = nullptr;

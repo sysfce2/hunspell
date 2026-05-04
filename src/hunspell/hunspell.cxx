@@ -1353,7 +1353,7 @@ std::vector<std::string> HunspellImpl::suggest_internal(const std::string& word,
 
     while (!good && nodashsug && !last) {
       if (dash_pos == scw.size())
-        last = 1;
+        last = true;
       std::string chunk = scw.substr(prev_pos, dash_pos - prev_pos);
       if (chunk != word && !spell(chunk, spell_candidate_stack, nullptr, nullptr, suggest_start)) {
         std::vector<std::string> nlst = suggest(chunk, suggest_candidate_stack, suggest_start);
