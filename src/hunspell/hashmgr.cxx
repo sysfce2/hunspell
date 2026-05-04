@@ -806,14 +806,14 @@ int HashMgr::decode_flags(unsigned short** result, const std::string& flags, Fil
         }
       }
       int i = atoi(src);
-      if (i > std::numeric_limits<unsigned short>::max() || i < 0) {
+      if ((i > std::numeric_limits<unsigned short>::max() || i < 0) && af) {
         HUNSPELL_WARNING(stderr,
                          "error: line %d: flag id %d is out of range\n",
                          af->getlinenum(), i);
         i = 0;
       }
       *dest = (unsigned short)i;
-      if (*dest == 0)
+      if (*dest == 0 && af)
         HUNSPELL_WARNING(stderr, "error: line %d: 0 is wrong flag id\n",
                          af->getlinenum());
       break;
