@@ -149,7 +149,7 @@ LaTeXParser::LaTeXParser(const w_char* wordchars, int len)
     , pattern_num(0), depth(0), arg(0), opt(0) {
 }
 
-LaTeXParser::~LaTeXParser() {}
+LaTeXParser::~LaTeXParser() = default;
 
 int LaTeXParser::look_pattern(int col) {
   for (unsigned int i = 0; i < PATTERN_LEN; i++) {

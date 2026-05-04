@@ -80,7 +80,7 @@ XMLParser::XMLParser(const w_char* wordchars, int len)
     , pattern_num(0), pattern2_num(0), pattern3_num(0), prevstate(0), checkattr(0), quotmark(0) {
 }
 
-XMLParser::~XMLParser() {}
+XMLParser::~XMLParser() = default;
 
 int XMLParser::look_pattern(const char* p[][2], unsigned int len, int column) {
   for (unsigned int i = 0; i < len; i++) {

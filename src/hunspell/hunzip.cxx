@@ -166,8 +166,7 @@ int Hunzip::getcode(const char* key) {
   return 0;
 }
 
-Hunzip::~Hunzip() {
-}
+Hunzip::~Hunzip() = default;
 
 int Hunzip::getbuf() {
   int p = 0;

@@ -85,4 +85,4 @@ bool HTMLParser::next_token(std::string& t) {
   return XMLParser::next_token(PATTERN, PATTERN_LEN, PATTERN2, PATTERN_LEN2, PATTERN3, PATTERN_LEN3, t);
 }
 
-HTMLParser::~HTMLParser() {}
+HTMLParser::~HTMLParser() = default;

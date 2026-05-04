@@ -83,4 +83,4 @@ std::string ODFParser::get_word(const std::string &tok) {
   return XMLParser::get_word2(PATTERN3, PATTERN_LEN3, tok);
 }
 
-ODFParser::~ODFParser() {}
+ODFParser::~ODFParser() = default;

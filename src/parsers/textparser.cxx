@@ -72,7 +72,7 @@ TextParser::TextParser(const w_char* wordchars, int len) {
   init(wordchars, len);
 }
 
-TextParser::~TextParser() {}
+TextParser::~TextParser() = default;
 
 int TextParser::is_wordchar(const char* w) {
   if (*w == '\0')
