@@ -179,7 +179,7 @@ inline int PfxEntry::test_condition(const std::string& s) {
           p = nextchar(p);
           if ((opts & aeUTF8) && (s[st - 1] & 0x80)) {  // multibyte
             while (p && (*p & 0xc0) == 0x80) {          // character
-              if (*p != s[st]) {
+              if (st >= s.size() || *p != s[st]) {
                 if (pos == std::string::npos)
                   return 0;
                 st = pos;
