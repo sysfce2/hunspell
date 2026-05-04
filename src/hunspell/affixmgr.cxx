@@ -3190,10 +3190,8 @@ static int morphcmp(const char* s, const char* t) {
   t = strstr(t, MORPH_DERI_SFX);
   if (!t || (tl && tl < t))
     t = strstr(oldt, MORPH_INFL_SFX);
-  if (!t || (tl && tl < t)) {
+  if (!t || (tl && tl < t))
     t = strstr(oldt, MORPH_TERM_SFX);
-    oldt = nullptr;
-  }
   while (s && t && (!sl || sl > s) && (!tl || tl > t)) {
     s += MORPH_TAG_LEN;
     t += MORPH_TAG_LEN;
@@ -3235,10 +3233,8 @@ static int morphcmp(const char* s, const char* t) {
     t = strstr(t, MORPH_DERI_SFX);
     if (!t || (tl && tl < t))
       t = strstr(oldt, MORPH_INFL_SFX);
-    if (!t || (tl && tl < t)) {
+    if (!t || (tl && tl < t))
       t = strstr(oldt, MORPH_TERM_SFX);
-      oldt = nullptr;
-    }
   }
   if (!s && !t && se && te)
     return 0;
