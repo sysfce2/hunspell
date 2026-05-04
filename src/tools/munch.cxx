@@ -288,7 +288,7 @@ int parse_aff_file(FILE* afflst) {
                 fprintf(stderr, "Error: too many entries: %d\n", numents);
                 numents = 0;
               } else {
-                ptr = (struct affent*)malloc(numents * sizeof(struct affent));
+                ptr = (struct affent*)calloc(numents, sizeof(struct affent));
                 ptr->achar = achar;
                 ptr->xpflg = ff;
                 fprintf(stderr, "parsing %c entries %d\n", achar, numents);
