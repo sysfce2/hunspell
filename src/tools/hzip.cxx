@@ -42,11 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
 #include <string>
-#include <sys/stat.h>
 
 #define CODELEN 65536
 #define BUFSIZE 65536
@@ -346,19 +342,8 @@ int hzip(const char* filename, char* key) {
   if (!f)
     return fail("hzip: %s: Permission denied\n", filename);
 
-  char tmpfiletemplate[] = "/tmp/hunspellXXXXXX";
-  mode_t mask = umask(S_IXUSR | S_IRWXG | S_IRWXO);
-  int tempfileno = mkstemp(tmpfiletemplate);
-  umask(mask);
-  if (tempfileno == -1) {
-    fclose(f);
-    return fail("hzip: cannot create temporary file\n", NULL);
-  }
-
-  FILE *tempfile = fdopen(tempfileno, "w+");
+  FILE *tempfile = tmpfile();
   if (!tempfile) {
-    close(tempfileno);
-    unlink(tmpfiletemplate);
     fclose(f);
     return fail("hzip: cannot create temporary file\n", NULL);
   }
@@ -369,7 +354,6 @@ int hzip(const char* filename, char* key) {
   if (!f2) {
     fclose(tempfile);
     fclose(f);
-    unlink(tmpfiletemplate);
     return fail("hzip: %s: Permission denied\n", out.c_str());
   }
   for (n = 0; n < CODELEN; n++)
@@ -378,7 +362,6 @@ int hzip(const char* filename, char* key) {
     fclose(f2);
     fclose(tempfile);
     fclose(f);
-    unlink(tmpfiletemplate);
     return fail("hzip: cannot write file\n", NULL);
   }
   rewind(tempfile);
@@ -390,7 +373,6 @@ int hzip(const char* filename, char* key) {
   fclose(f2);
   fclose(tempfile);
   fclose(f);
-  unlink(tmpfiletemplate);
   if (n != 0)
     return fail("hzip: cannot write file\n", NULL);
   return n;
