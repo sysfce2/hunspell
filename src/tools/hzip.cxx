@@ -342,6 +342,8 @@ int hzip(const char* filename, char* key) {
   if (!f)
     return fail("hzip: %s: Permission denied\n", filename);
 
+  // coverity[secure_temp] - tmpfile() is portable across POSIX and MSVC (#919);
+  // modern implementations create the file securely (O_EXCL, already unlinked)
   FILE *tempfile = tmpfile();
   if (!tempfile) {
     fclose(f);
