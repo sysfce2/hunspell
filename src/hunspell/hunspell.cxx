@@ -758,8 +758,7 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
         scw.resize(found);
         // examine 2 sides of the break point
         if (spell(scw, candidate_stack, nullptr, nullptr, suggest_start)) {
-          if (info)
-            *info |= SPELL_COMPOUND;
+          *info |= SPELL_COMPOUND;
           return true;
         }
         scw.append(suffix);
@@ -769,8 +768,7 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
           suffix = scw.substr(found + 1);
           scw.resize(found + 1);
           if (spell(scw, candidate_stack, nullptr, nullptr, suggest_start)) {
-            if (info)
-              *info |= SPELL_COMPOUND;
+            *info |= SPELL_COMPOUND;
             return true;  // check the first part with dash
           }
           scw.append(suffix);
@@ -789,8 +787,7 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
         scw.resize(found);
         // examine 2 sides of the break point
         if (spell(scw, candidate_stack, nullptr, nullptr, suggest_start)) {
-          if (info)
-            *info |= SPELL_COMPOUND;
+          *info |= SPELL_COMPOUND;
           return true;
         }
         scw.append(suffix);
@@ -800,8 +797,7 @@ bool HunspellImpl::spell_internal(const std::string& word, std::vector<std::stri
           suffix = scw.substr(found + 1);
           scw.resize(found + 1);
           if (spell(scw, candidate_stack, nullptr, nullptr, suggest_start)) {
-            if (info)
-              *info |= SPELL_COMPOUND;
+            *info |= SPELL_COMPOUND;
             return true;  // check the first part with dash
           }
           scw.append(suffix);
