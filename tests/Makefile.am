@@ -2,7 +2,7 @@
 
 SUBDIRS = suggestiontest
 
-AM_CPPFLAGS = -I$(top_srcdir)/src/hunspell $(HUNSPELL_STATIC_DEFINE)
+AM_CPPFLAGS = -I$(top_srcdir)/src/hunspell -I$(top_builddir)/src/hunspell $(HUNSPELL_STATIC_DEFINE)
 
 check_PROGRAMS = gh1032 gh1058
 gh1032_SOURCES = gh1032.cxx
